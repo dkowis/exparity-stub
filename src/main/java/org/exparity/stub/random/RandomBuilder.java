@@ -2,8 +2,8 @@ package org.exparity.stub.random;
 
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang.RandomStringUtils.randomAlphanumeric;
-import static org.apache.commons.lang.math.RandomUtils.*;
 import static org.apache.commons.lang.time.DateUtils.addSeconds;
+import static org.apache.commons.lang3.RandomUtils.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -120,7 +120,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Integer}.
      */
     public static Integer aRandomInteger() {
-        return Integer.valueOf(nextInt());
+        return nextInt();
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class RandomBuilder {
         if (min == max) {
             return min;
         } else {
-            return min + Integer.valueOf(nextInt(max - min));
+            return min + nextInt(0, max - min);
         }
     }
 
@@ -152,7 +152,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Short}.
      */
     public static Short aRandomShort() {
-        return Short.valueOf((short) nextInt(Short.MAX_VALUE));
+        return (short) nextInt(0, Short.MAX_VALUE);
     }
 
     /**
@@ -170,7 +170,7 @@ public abstract class RandomBuilder {
         if (min == max) {
             return min;
         } else {
-            return Short.valueOf((short) (min + nextInt(max - min)));
+            return (short) (min + nextInt(0, max - min));
         }
     }
 
@@ -184,7 +184,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Long}.
      */
     public static Long aRandomLong() {
-        return Long.valueOf(nextLong());
+        return nextLong();
     }
 
     /**
@@ -202,7 +202,7 @@ public abstract class RandomBuilder {
         if (min == max) {
             return (long) min;
         } else {
-            return Long.valueOf(min + nextInt(max - min));
+            return (long) (min + nextInt(0, max - min));
         }
     }
 
@@ -216,7 +216,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Double}.
      */
     public static Double aRandomDouble() {
-        return Double.valueOf(nextDouble());
+        return nextDouble();
     }
 
     /**
@@ -229,7 +229,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Float}.
      */
     public static Float aRandomFloat() {
-        return Float.valueOf(nextFloat());
+        return nextFloat();
     }
 
     /**
@@ -245,7 +245,7 @@ public abstract class RandomBuilder {
      */
     @SuppressWarnings("unchecked")
     public static <T> T oneOf(final T... rangeOfValues) {
-        return rangeOfValues == null ? null : rangeOfValues[nextInt(rangeOfValues.length)];
+        return rangeOfValues == null ? null : rangeOfValues[nextInt(0, rangeOfValues.length)];
     }
 
     /**
@@ -258,7 +258,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Boolean}.
      */
     public static Boolean aRandomBoolean() {
-        return Boolean.valueOf(nextBoolean());
+        return nextBoolean();
     }
 
     /**
@@ -271,7 +271,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Date} with an year either side of today.
      */
     public static Date aRandomDate() {
-        return addSeconds(new Date(), nextInt(SECONDS_IN_A_YEAR));
+        return addSeconds(new Date(), nextInt(0, SECONDS_IN_A_YEAR));
     }
 
     /**
@@ -284,7 +284,7 @@ public abstract class RandomBuilder {
      * @return a random {@link LocalDate} with an year either side of today.
      */
     public static LocalDate aRandomLocalDate() {
-        return LocalDate.now().plus(nextInt(DAYS_PER_YEAR), ChronoUnit.DAYS);
+        return LocalDate.now().plus(nextInt(0, DAYS_PER_YEAR), ChronoUnit.DAYS);
     }
 
     /**
@@ -297,7 +297,7 @@ public abstract class RandomBuilder {
      * @return a random {@link LocalDateTime} with an year either side of today.
      */
     public static LocalDateTime aRandomLocalDateTime() {
-        return LocalDateTime.now().plus(nextInt(SECONDS_IN_A_YEAR), ChronoUnit.SECONDS);
+        return LocalDateTime.now().plus(nextInt(0, SECONDS_IN_A_YEAR), ChronoUnit.SECONDS);
     }
 
     /**
@@ -310,7 +310,7 @@ public abstract class RandomBuilder {
      * @return a random {@link aRandomLocalTime} within 12 hours either side of now.
      */
     public static LocalTime aRandomLocalTime() {
-        return LocalTime.now().plusSeconds(nextInt(SECONDS_IN_12_HOURS));
+        return LocalTime.now().plusSeconds(nextInt(0, SECONDS_IN_12_HOURS));
     }
 
     /**
@@ -323,7 +323,7 @@ public abstract class RandomBuilder {
      * @return a random {@link ZonedDateTime} with an year either side of today.
      */
     public static ZonedDateTime aRandomZonedDateTime() {
-        return ZonedDateTime.now().plus(nextInt(SECONDS_IN_A_YEAR), ChronoUnit.SECONDS);
+        return ZonedDateTime.now().plus(nextInt(0, SECONDS_IN_A_YEAR), ChronoUnit.SECONDS);
     }
 
     /**
@@ -336,7 +336,7 @@ public abstract class RandomBuilder {
      * @return a random {@link ZonedDateTime} with an year either side of today.
      */
     public static Instant aRandomInstant() {
-        return Instant.now().plus(nextInt(SECONDS_IN_A_YEAR), ChronoUnit.SECONDS);
+        return Instant.now().plus(nextInt(0, SECONDS_IN_A_YEAR), ChronoUnit.SECONDS);
     }
 
     /**
@@ -349,7 +349,7 @@ public abstract class RandomBuilder {
      * @return a random {@link BigDecimal}.
      */
     public static BigDecimal aRandomDecimal() {
-        return BigDecimal.valueOf(nextInt()).round(new MathContext(10, RoundingMode.HALF_UP)).movePointLeft(nextInt(5));
+        return BigDecimal.valueOf(nextInt()).round(new MathContext(10, RoundingMode.HALF_UP)).movePointLeft(nextInt(0, 5));
     }
 
     /**
@@ -362,7 +362,7 @@ public abstract class RandomBuilder {
      * @return a random {@link Byte}.
      */
     public static Byte aRandomByte() {
-        return (byte) nextInt(Byte.MAX_VALUE);
+        return (byte) nextInt(0, Byte.MAX_VALUE);
     }
 
     /**
@@ -410,7 +410,7 @@ public abstract class RandomBuilder {
         if (enumerationValues.length == 0) {
             throw new RandomBuilderException("Enumeration " + enumType.getName() + "has no values");
         } else {
-            return enumerationValues[nextInt(enumerationValues.length)];
+            return enumerationValues[nextInt(0, enumerationValues.length)];
         }
     }
 
